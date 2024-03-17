@@ -1,0 +1,22 @@
+# ninja log v5
+1	84	7323198538734788	CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj	6c442a960c322af4
+146	210	7323198540019966	untitled18.exe	ea3a2560ce1cf235
+6	79	7323198538724784	libs/data_structures/CMakeFiles/data_structures.dir/matrix/matrix.c.obj	dee5f6ffb7e71ca5
+4	91	7323187242186950	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+79	146	7323198539409960	libs/data_structures/libdata_structures.a	30505336a56af4b2
+1	204	7323202552160081	build.ninja	53468d4c4815e33e
+2	59	7323202582899692	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+59	117	7323202583455434	untitled18.exe	ea3a2560ce1cf235
+1	67	7323203590368944	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+67	127	7323203590934629	untitled18.exe	ea3a2560ce1cf235
+9	69	7323207190522111	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+12	73	7323207190562115	libs/data_structures/CMakeFiles/data_structures.dir/matrix/matrix.c.obj	dee5f6ffb7e71ca5
+3	80	7323207190632166	CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj	6c442a960c322af4
+73	125	7323207191079377	libs/data_structures/libdata_structures.a	30505336a56af4b2
+125	184	7323207191649485	untitled18.exe	ea3a2560ce1cf235
+1	64	7323212682738748	CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj	6c442a960c322af4
+6	70	7323212682798820	libs/data_structures/CMakeFiles/data_structures.dir/matrix/matrix.c.obj	dee5f6ffb7e71ca5
+70	117	7323212683258595	libs/data_structures/libdata_structures.a	30505336a56af4b2
+117	172	7323212683794377	untitled18.exe	ea3a2560ce1cf235
+2	107	7323665815081009	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+107	338	7323665817372186	untitled18.exe	ea3a2560ce1cf235
