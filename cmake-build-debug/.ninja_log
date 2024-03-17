@@ -20,3 +20,10 @@
 117	172	7323212683794377	untitled18.exe	ea3a2560ce1cf235
 2	107	7323665815081009	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
 107	338	7323665817372186	untitled18.exe	ea3a2560ce1cf235
+2	117	7323743092274929	CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj	6c442a960c322af4
+7	118	7323743092284931	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+28	118	7323743092284931	libs/data_structures/CMakeFiles/data_structures.dir/matrix/matrix.c.obj	dee5f6ffb7e71ca5
+118	213	7323743093246310	libs/data_structures/libdata_structures.a	30505336a56af4b2
+213	447	7323743095565638	untitled18.exe	ea3a2560ce1cf235
+2	641	7323748695699014	CMakeFiles/untitled18.dir/main.c.obj	ff53215b1c4f14f6
+642	721	7323748696472852	untitled18.exe	ea3a2560ce1cf235

@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "libs/data_structures/matrix/matrix.h"
+#include <windows.h>
 
 void test_getMemMatrix1() {
     matrix m = getMemMatrix(2, 3);
@@ -58,6 +59,25 @@ void test_freeMemMatrices() {
     freeMemMatrices(ms, nMatrices);
 }
 
+void test_inputOutputFunctions() {
+    matrix m = getMemMatrix(2, 2);
+    inputMatrix(&m);
+    printf("Введенная матрица:\n");
+    outputMatrix(m);
+    freeMemMatrix(&m);
+}
+
+void test_inputOutputArrayFunctions() {
+    int nMatrices = 2;
+    int nRows = 3;
+    int nCols = 3;
+    matrix *ms = getMemArrayOfMatrices(nMatrices, nRows, nCols);
+    inputMatrices(ms, nMatrices);
+    printf("Введенные матрицы:\n");
+    outputMatrices(ms, nMatrices);
+    freeMemMatrices(ms, nMatrices);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -72,9 +92,12 @@ void test() {
     // Добавляем сюда другие тесты, если необходимо
     test_getMemFunctions();
     test_freeMemFunctions();
+    test_inputOutputFunctions();
+    test_inputOutputArrayFunctions();
 }
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
     test();
     return 0;
 }

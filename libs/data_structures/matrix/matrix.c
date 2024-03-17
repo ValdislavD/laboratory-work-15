@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <malloc.h>
 #include "matrix.h"
 
@@ -37,5 +38,39 @@ void freeMemMatrices(matrix *ms, int nMatrices) {
         }
         // Освобождаем память для самого массива матриц
         free(ms);
+    }
+}
+
+void inputMatrix(matrix *m) {
+    printf("Введите элементы матрицы %dx%d:\n", m->nRows, m->nCols);
+    for (int i = 0; i < m->nRows; i++) {
+        for (int j = 0; j < m->nCols; j++) {
+            scanf("%d", &m->values[i][j]);
+        }
+    }
+}
+
+void inputMatrices(matrix *ms, int nMatrices) {
+    for (int k = 0; k < nMatrices; k++) {
+        printf("Введите элементы матрицы %d:\n", k + 1);
+        inputMatrix(&ms[k]);
+    }
+}
+
+void outputMatrix(matrix m) {
+    printf("Матрица %dx%d:\n", m.nRows, m.nCols);
+    for (int i = 0; i < m.nRows; i++) {
+        for (int j = 0; j < m.nCols; j++) {
+            printf("%d ", m.values[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void outputMatrices(matrix *ms, int nMatrices) {
+    for (int k = 0; k < nMatrices; k++) {
+        printf("Матрица %d:\n", k + 1);
+        outputMatrix(ms[k]);
+        printf("\n");
     }
 }
