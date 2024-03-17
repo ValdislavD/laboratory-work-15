@@ -78,6 +78,54 @@ void test_inputOutputArrayFunctions() {
     freeMemMatrices(ms, nMatrices);
 }
 
+void test_swapRows() {
+    matrix m = getMemMatrix(3, 3);
+    m.values[0][0] = 1;
+    m.values[0][1] = 2;
+    m.values[0][2] = 3;
+    m.values[1][0] = 4;
+    m.values[1][1] = 5;
+    m.values[1][2] = 6;
+    m.values[2][0] = 7;
+    m.values[2][1] = 8;
+    m.values[2][2] = 9;
+
+    swapRows(m, 0, 2);
+
+    assert(m.values[0][0] == 7);
+    assert(m.values[0][1] == 8);
+    assert(m.values[0][2] == 9);
+    assert(m.values[2][0] == 1);
+    assert(m.values[2][1] == 2);
+    assert(m.values[2][2] == 3);
+
+    freeMemMatrix(&m);
+}
+
+void test_swapColumns() {
+    matrix m = getMemMatrix(3, 3);
+    m.values[0][0] = 1;
+    m.values[0][1] = 2;
+    m.values[0][2] = 3;
+    m.values[1][0] = 4;
+    m.values[1][1] = 5;
+    m.values[1][2] = 6;
+    m.values[2][0] = 7;
+    m.values[2][1] = 8;
+    m.values[2][2] = 9;
+
+    swapColumns(m, 0, 2);
+
+    assert(m.values[0][0] == 3);
+    assert(m.values[1][0] == 6);
+    assert(m.values[2][0] == 9);
+    assert(m.values[0][2] == 1);
+    assert(m.values[1][2] == 4);
+    assert(m.values[2][2] == 7);
+
+    freeMemMatrix(&m);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -94,6 +142,8 @@ void test() {
     test_freeMemFunctions();
     test_inputOutputFunctions();
     test_inputOutputArrayFunctions();
+    test_swapRows();
+    test_swapColumns();
 }
 
 int main() {
