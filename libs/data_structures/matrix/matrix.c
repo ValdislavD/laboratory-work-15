@@ -75,15 +75,15 @@ void outputMatrices(matrix *ms, int nMatrices) {
     }
 }
 
-void swapRows(matrix m, int i1, int i2) {
+void swapRows(matrix *m, int row1, int row2) {
     // Проверяем, что индексы не выходят за границы
-    assert(i1 >= 0 && i1 < m.nRows);
-    assert(i2 >= 0 && i2 < m.nRows);
+    assert(row1 >= 0 && row1 < m->nRows);
+    assert(row2 >= 0 && row2 < m->nRows);
 
     // Обмениваем указатели на строки
-    int *temp = m.values[i1];
-    m.values[i1] = m.values[i2];
-    m.values[i2] = temp;
+    int *temp = m->values[row1];
+    m->values[row1] = m->values[row2];
+    m->values[row2] = temp;
 }
 
 void swapColumns(matrix m, int j1, int j2) {
@@ -98,3 +98,42 @@ void swapColumns(matrix m, int j1, int j2) {
         m.values[i][j2] = temp;
     }
 }
+
+// Функция для вычисления суммы элементов в строке
+int getSum(int *row, int nCols) {
+    int sum = 0;
+    for (int i = 0; i < nCols; i++) {
+        sum += row[i];
+    }
+    return sum;
+}
+
+// Функция для сортировки строк матрицы по заданным критериям
+void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int*, int)) {
+    int nRows = m.nRows;
+    int *rowValues = (int *)malloc(nRows * sizeof(int)); // Временный массив для хранения значений критерия
+
+    // Вычисление значений критерия для каждой строки
+    for (int i = 0; i < nRows; i++) {
+        rowValues[i] = criteria(m.values[i], m.nCols);
+    }
+
+    // Сортировка вставками на основе значений критерия
+    for (int i = 1; i < nRows; i++) {
+        int key = rowValues[i];
+        int *keyRow = m.values[i];
+        int j = i - 1;
+        // Перемещение элементов rowValues[0..i-1] и m.values[0..i-1], которые больше key, на одну позицию вперед относительно их текущей позиции
+        while (j >= 0 && rowValues[j] > key) {
+            rowValues[j + 1] = rowValues[j];
+            m.values[j + 1] = m.values[j];
+            j = j - 1;
+        }
+        rowValues[j + 1] = key;
+        m.values[j + 1] = keyRow;
+    }
+
+    free(rowValues); // Освобождение выделенной динамической памяти
+}
+
+

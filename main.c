@@ -90,7 +90,7 @@ void test_swapRows() {
     m.values[2][1] = 8;
     m.values[2][2] = 9;
 
-    swapRows(m, 0, 2);
+    swapRows(&m, 0, 2);
 
     assert(m.values[0][0] == 7);
     assert(m.values[0][1] == 8);
@@ -126,6 +126,36 @@ void test_swapColumns() {
     freeMemMatrix(&m);
 }
 
+void test_insertionSortRowsMatrixByRowCriteria() {
+    // Создание примера матрицы
+    matrix m;
+    m.nRows = 3;
+    m.nCols = 3;
+    m.values = (int **)malloc(m.nRows * sizeof(int *));
+    for (int i = 0; i < m.nRows; i++) {
+        m.values[i] = (int *)malloc(m.nCols * sizeof(int));
+    }
+
+    // Инициализация значений матрицы
+    m.values[0][0] = 3; m.values[0][1] = 2; m.values[0][2] = 1;
+    m.values[1][0] = 6; m.values[1][1] = 5; m.values[1][2] = 4;
+    m.values[2][0] = 9; m.values[2][1] = 8; m.values[2][2] = 7;
+
+    // Сортировка строк на основе суммы элементов в каждой строке
+    insertionSortRowsMatrixByRowCriteria(m, getSum);
+
+    // Проверка отсортированной матрицы
+    assert(m.values[0][0] == 1 && m.values[0][1] == 2 && m.values[0][2] == 3);
+    assert(m.values[1][0] == 4 && m.values[1][1] == 5 && m.values[1][2] == 6);
+    assert(m.values[2][0] == 7 && m.values[2][1] == 8 && m.values[2][2] == 9);
+
+    // Освобождение выделенной динамической памяти
+    for (int i = 0; i < m.nRows; i++) {
+        free(m.values[i]);
+    }
+    free(m.values);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -144,6 +174,7 @@ void test() {
     test_inputOutputArrayFunctions();
     test_swapRows();
     test_swapColumns();
+    test_insertionSortRowsMatrixByRowCriteria();
 }
 
 int main() {
