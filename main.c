@@ -252,6 +252,35 @@ void test_isSymmetricMatrix() {
     freeMemMatrix(&m2);
 }
 
+void test_transposeSquareMatrix() {
+    matrix m = getMemMatrix(3, 3);
+    m.values[0][0] = 1; m.values[0][1] = 2; m.values[0][2] = 3;
+    m.values[1][0] = 4; m.values[1][1] = 5; m.values[1][2] = 6;
+    m.values[2][0] = 7; m.values[2][1] = 8; m.values[2][2] = 9;
+
+    transposeSquareMatrix(&m);
+
+    assert(m.values[0][0] == 1 && m.values[0][1] == 4 && m.values[0][2] == 7);
+    assert(m.values[1][0] == 2 && m.values[1][1] == 5 && m.values[1][2] == 8);
+    assert(m.values[2][0] == 3 && m.values[2][1] == 6 && m.values[2][2] == 9);
+
+    freeMemMatrix(&m);
+}
+
+void test_transposeMatrix() {
+    matrix m = getMemMatrix(2, 3);
+    m.values[0][0] = 1; m.values[0][1] = 2; m.values[0][2] = 3;
+    m.values[1][0] = 4; m.values[1][1] = 5; m.values[1][2] = 6;
+
+    transposeMatrix(&m);
+
+    assert(m.values[0][0] == 1 && m.values[0][1] == 4);
+    assert(m.values[1][0] == 2 && m.values[1][1] == 5);
+    assert(m.values[2][0] == 3 && m.values[2][1] == 6);
+
+    freeMemMatrix(&m);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -276,6 +305,8 @@ void test() {
     test_areTwoMatricesEqual();
     test_isEMatrix();
     test_isSymmetricMatrix();
+    test_transposeSquareMatrix();
+    test_transposeMatrix();
 }
 
 int main() {
