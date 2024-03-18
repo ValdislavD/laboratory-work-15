@@ -36,8 +36,16 @@ void swapRows(matrix *m, int row1, int row2);
 
 void swapColumns(matrix m, int j1, int j2);
 
-void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int*, int));
+void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int *, int));
 
-int getSum(int *row, int nCols);
+void selectionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int*, int));
+
+bool isSquareMatrix(matrix *m);
+
+bool areTwoMatricesEqual(matrix *m1, matrix *m2);
+
+bool isEMatrix(matrix *m);
+
+bool isSymmetricMatrix(matrix *m);
 
 #endif //UNTITLED18_MATRIX_H
