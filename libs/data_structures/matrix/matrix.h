@@ -52,4 +52,8 @@ void transposeSquareMatrix(matrix *m);
 
 void transposeMatrix(matrix *m);
 
+position getMinValuePos(matrix m);
+
+position getMaxValuePos(matrix m);
+
 #endif //UNTITLED18_MATRIX_H

@@ -281,6 +281,30 @@ void test_transposeMatrix() {
     freeMemMatrix(&m);
 }
 
+void test_getMinValuePos() {
+    matrix m = getMemMatrix(3, 3);
+    m.values[0][0] = 5; m.values[0][1] = 8; m.values[0][2] = 3;
+    m.values[1][0] = 2; m.values[1][1] = 7; m.values[1][2] = 6;
+    m.values[2][0] = 4; m.values[2][1] = 1; m.values[2][2] = 9;
+
+    position minPos = getMinValuePos(m);
+    assert(minPos.rowIndex == 2 && minPos.colIndex == 1);
+
+    freeMemMatrix(&m);
+}
+
+void test_getMaxValuePos() {
+    matrix m = getMemMatrix(3, 3);
+    m.values[0][0] = 5; m.values[0][1] = 8; m.values[0][2] = 3;
+    m.values[1][0] = 2; m.values[1][1] = 7; m.values[1][2] = 6;
+    m.values[2][0] = 4; m.values[2][1] = 1; m.values[2][2] = 9;
+
+    position maxPos = getMaxValuePos(m);
+    assert(maxPos.rowIndex == 2 && maxPos.colIndex == 2);
+
+    freeMemMatrix(&m);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -307,6 +331,8 @@ void test() {
     test_isSymmetricMatrix();
     test_transposeSquareMatrix();
     test_transposeMatrix();
+    test_getMinValuePos();
+    test_getMaxValuePos();
 }
 
 int main() {
