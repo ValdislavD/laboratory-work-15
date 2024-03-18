@@ -305,6 +305,56 @@ void test_getMaxValuePos() {
     freeMemMatrix(&m);
 }
 
+void test_countZeroRows() {
+    matrix m = createMatrixFromArray(
+            (int[]) {
+                    1, 1, 0,
+                    0, 0, 0,
+                    0, 0, 1,
+                    0, 0, 0,
+                    0, 1, 1,
+            },
+            5, 3
+    );
+    assert(countZeroRows(m, m.nRows, m.nCols) == 2);
+    freeMemMatrix(&m); // Освобождение памяти для матрицы
+}
+
+
+void test_createArrayOfMatrixFromArray() {
+    const int values[] = {
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+            10, 11, 12
+    };
+    size_t nMatrices = 2;
+    size_t nRows = 2;
+    size_t nCols = 3;
+
+    matrix *ms = createArrayOfMatrixFromArray(values, nMatrices, nRows, nCols);
+
+    assert(ms != NULL);
+
+    // Проверяем количество созданных матриц
+    assert(ms[0].nRows == nRows);
+    assert(ms[0].nCols == nCols);
+    assert(ms[1].nRows == nRows);
+    assert(ms[1].nCols == nCols);
+
+    // Проверяем значения матриц
+    for (size_t i = 0; i < nMatrices; ++i) {
+        for (size_t j = 0; j < nRows; ++j) {
+            for (size_t k = 0; k < nCols; ++k) {
+                assert(ms[i].values[j][k] == values[i * nRows * nCols + j * nCols + k]);
+            }
+        }
+        freeMemMatrix(&ms[i]);
+    }
+
+    free(ms);
+}
+
 void test_freeMemFunctions() {
     test_freeMemMatrix();
     test_freeMemMatrices();
@@ -333,6 +383,8 @@ void test() {
     test_transposeMatrix();
     test_getMinValuePos();
     test_getMaxValuePos();
+    test_countZeroRows();
+    test_createArrayOfMatrixFromArray();
 }
 
 int main() {

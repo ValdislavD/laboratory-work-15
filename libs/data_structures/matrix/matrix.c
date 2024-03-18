@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <stdlib.h>
+#include <string.h>
 #include "matrix.h"
 
 matrix getMemMatrix(int nRows, int nCols) {
@@ -309,3 +311,37 @@ position getMaxValuePos(matrix m) {
     return maxPos;
 }
 
+matrix createMatrixFromArray(const int *a, size_t nRows, size_t nCols) {
+    matrix m = getMemMatrix(nRows, nCols);
+    for (size_t i = 0; i < nRows; ++i) {
+        memcpy(m.values[i], a + i * nCols, nCols * sizeof(int));
+    }
+    return m;
+}
+
+matrix *createArrayOfMatrixFromArray(const int *values, size_t nMatrices, size_t nRows, size_t nCols) {
+    matrix *ms = getMemArrayOfMatrices(nMatrices, nRows, nCols);
+    for (size_t i = 0; i < nMatrices; ++i) {
+        for (size_t j = 0; j < nRows; ++j) {
+            memcpy(ms[i].values[j], values + i * nRows * nCols + j * nCols, nCols * sizeof(int));
+        }
+    }
+    return ms;
+}
+
+int countZeroRows(matrix m, size_t nRows, size_t nCols) {
+    int count = 0;
+    for (size_t i = 0; i < nRows; ++i) {
+        int allZero = 1; // Флаг, указывающий, что все элементы строки равны нулю
+        for (size_t j = 0; j < nCols; ++j) {
+            if (m.values[i][j] != 0) {
+                allZero = 0; // Если хотя бы один элемент не равен нулю, сбрасываем флаг
+                break;
+            }
+        }
+        if (allZero) {
+            count++; // Увеличиваем счетчик, если все элементы строки равны нулю
+        }
+    }
+    return count;
+}
