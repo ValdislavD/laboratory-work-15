@@ -164,6 +164,51 @@ void getSquareOfMatrixIfSymmetric(matrix *m) {
     }
 }
 
+// Функция для проверки, все ли элементы в массиве уникальны
+bool isUnique(long long *a, int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (a[i] == a[j]) {
+                return false; // Найдено повторяющееся значение
+            }
+        }
+    }
+    return true; // Все элементы уникальны
+}
+
+// Функция для вычисления суммы элементов в массиве
+long long getSum(int *a, int n) {
+    long long sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+    }
+    return sum;
+}
+
+// Функция для транспонирования матрицы, если суммы элементов строк различны
+void transposeIfMatrixHasNotEqualSumOfRows(matrix m) {
+    int nRows = m.nRows;
+    long long *sums = (long long *)malloc(nRows * sizeof(long long));
+
+    // Вычисляем суммы элементов строк матрицы
+    for (int i = 0; i < nRows; i++) {
+        sums[i] = getSum(m.values[i], m.nCols);
+    }
+
+    // Проверяем, все ли суммы элементов строк различны
+    if (isUnique(sums, nRows)) {
+        // Суммы элементов строк различны, транспонируем матрицу
+        transposeMatrix(&m);
+        printf("Матрица была транспонирована:\n");
+        outputMatrix(m);
+    } else {
+        printf("Суммы элементов строк не различны, матрица остается без изменений.\n");
+    }
+
+    // Освобождаем память, выделенную под массив сумм
+    free(sums);
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем квадратную матрицу
@@ -216,5 +261,18 @@ int main() {
     // Освобождаем память от матрицы
     freeMemMatrix(&myMatrix);
 
+    // Создаем и заполняем матрицу
+    matrix newMatrix = createMatrixFromArray((const int[]){
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9
+    }, 3, 3);
+    outputMatrix(myMatrix);
+
+    // Задача 5: Транспонировать матрицу, если суммы элементов строк различны
+    transposeIfMatrixHasNotEqualSumOfRows(newMatrix);
+
+    // Освобождаем память от матрицы
+    freeMemMatrix(&newMatrix);
     return 0;
 }
