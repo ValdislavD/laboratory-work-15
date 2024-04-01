@@ -129,6 +129,41 @@ void sortColsByMinElement(matrix *m) {
     *m = sorted;
 }
 
+// Функция для вычисления произведения двух матриц
+matrix mulMatrices(matrix m1, matrix m2) {
+    assert(m1.nCols == m2.nRows); // Проверяем совместимость размеров матриц
+
+    matrix result = getMemMatrix(m1.nRows, m2.nCols);
+
+    for (int i = 0; i < m1.nRows; i++) {
+        for (int j = 0; j < m2.nCols; j++) {
+            result.values[i][j] = 0;
+            for (int k = 0; k < m1.nCols; k++) {
+                result.values[i][j] += m1.values[i][k] * m2.values[k][j];
+            }
+        }
+    }
+
+    return result;
+}
+
+// Функция для замены квадратной матрицы ее квадратом, если она симметрична
+void getSquareOfMatrixIfSymmetric(matrix *m) {
+    if (isSymmetricMatrix(m)) {
+        // Создаем копию исходной матрицы
+        matrix original = *m;
+
+        // Вычисляем квадрат исходной матрицы
+        matrix square = mulMatrices(original, original);
+
+        // Освобождаем память, занятую исходной матрицей
+        freeMemMatrix(m);
+
+        // Заменяем исходную матрицу на ее квадрат
+        *m = square;
+    }
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем квадратную матрицу
@@ -162,6 +197,21 @@ int main() {
     // Задача 3: Упорядочить столбцы матрицы по неубыванию минимальных элементов столбцов
     sortColsByMinElement(&myMatrix);
     outputMatrix(myMatrix);
+
+    // Освобождаем память от матрицы
+    freeMemMatrix(&myMatrix);
+
+    // Создаем и заполняем матрицу
+    matrix my_Matrix = createMatrixFromArray((const int[]){
+            1, 2, 3,
+            2, 4, 5,
+            3, 5, 6
+    }, 3, 3);
+    outputMatrix(my_Matrix);
+
+    // Задача 4: Заменить квадратной матрицу ее квадратом, если она симметрична
+    getSquareOfMatrixIfSymmetric(&my_Matrix);
+    outputMatrix(my_Matrix);
 
     // Освобождаем память от матрицы
     freeMemMatrix(&myMatrix);
