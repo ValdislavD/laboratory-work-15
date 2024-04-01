@@ -1,6 +1,7 @@
 #include "libs/data_structures/matrix/matrix.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <windows.h>
 
 void swapRowsWithMinAndMax(matrix *m) {
@@ -209,6 +210,38 @@ void transposeIfMatrixHasNotEqualSumOfRows(matrix m) {
     free(sums);
 }
 
+// Функция для определения, являются ли две квадратные матрицы взаимно обратными
+bool isMutuallyInverseMatrices(matrix m1, matrix m2) {
+    // Проверяем, что матрицы квадратные и одинакового размера
+    if (!isSquareMatrix(&m1) || !isSquareMatrix(&m2) || m1.nRows != m2.nRows || m1.nCols != m2.nCols) {
+        return false;
+    }
+
+    // Создаем единичную матрицу того же размера, что и матрицы m1 и m2
+    matrix identityMatrix = getMemMatrix(m1.nRows, m1.nCols);
+    for (int i = 0; i < m1.nRows; i++) {
+        for (int j = 0; j < m1.nCols; j++) {
+            if (i == j) {
+                identityMatrix.values[i][j] = 1;
+            } else {
+                identityMatrix.values[i][j] = 0;
+            }
+        }
+    }
+
+    // Вычисляем произведение матрицы m1 на матрицу m2
+    matrix product = mulMatrices(m1, m2);
+
+    // Проверяем, получили ли мы единичную матрицу
+    bool isInverse = areTwoMatricesEqual(&product, &identityMatrix);
+
+    // Освобождаем память, выделенную под единичную матрицу и произведение
+    freeMemMatrix(&identityMatrix);
+    freeMemMatrix(&product);
+
+    return isInverse;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем квадратную матрицу
@@ -274,5 +307,32 @@ int main() {
 
     // Освобождаем память от матрицы
     freeMemMatrix(&newMatrix);
+
+    // Создание и заполнение двух квадратных матриц A и B
+    matrix A_matrix = createMatrixFromArray((const int[]){
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9
+    }, 3, 3);
+
+    matrix B_matrix = createMatrixFromArray((const int[]){
+            1, 0, 0,
+            0, 1, 0,
+            0, 0, 1
+    }, 3, 3);
+
+    // Проверка, являются ли матрицы A и B взаимно обратными
+    bool result = isMutuallyInverseMatrices(A_matrix, B_matrix);
+
+    if (result) {
+        printf("Матрицы A и B являются взаимно обратными.\n");
+    } else {
+        printf("Матрицы A и B не являются взаимно обратными.\n");
+    }
+
+    // Освобождение памяти, выделенной для матриц
+    freeMemMatrix(&A_matrix);
+    freeMemMatrix(&B_matrix);
+
     return 0;
 }
