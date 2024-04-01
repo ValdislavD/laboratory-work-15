@@ -61,6 +61,12 @@ build CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj: C_COMP
   OBJECT_DIR = CMakeFiles\untitled18.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled18.dir\libs\data_structures\matrix
 
+build CMakeFiles/untitled18.dir/tasks.c.obj: C_COMPILER__untitled18_unscanned_Debug C$:/Users/vladi/CLionProjects/untitled18/tasks.c || cmake_object_order_depends_target_untitled18
+  DEP_FILE = CMakeFiles\untitled18.dir\tasks.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\untitled18.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled18.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled18
@@ -69,7 +75,7 @@ build CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj: C_COMP
 #############################################
 # Link the executable untitled18.exe
 
-build untitled18.exe: C_EXECUTABLE_LINKER__untitled18_Debug CMakeFiles/untitled18.dir/main.c.obj CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj | libs/data_structures/libdata_structures.a || libs/data_structures/libdata_structures.a
+build untitled18.exe: C_EXECUTABLE_LINKER__untitled18_Debug CMakeFiles/untitled18.dir/main.c.obj CMakeFiles/untitled18.dir/libs/data_structures/matrix/matrix.c.obj CMakeFiles/untitled18.dir/tasks.c.obj | libs/data_structures/libdata_structures.a || libs/data_structures/libdata_structures.a
   FLAGS = -g
   LINK_LIBRARIES = libs/data_structures/libdata_structures.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\untitled18.dir
