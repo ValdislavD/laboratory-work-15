@@ -38,6 +38,48 @@ void sortByDistances(matrix m) {
     insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
 }
 
+int cmp_long_long(const void *pa, const void *pb) {
+    long long a = *(const long long *)pa;
+    long long b = *(const long long *)pb;
+    return (a > b) - (a < b);
+}
+
+int countNUnique(long long *a, int n) {
+    if (n <= 0) return 0;
+
+    int unique = 1;
+    for (int i = 1; i < n; i++) {
+        if (a[i] != a[i - 1]) {
+            unique++;
+        }
+    }
+    return unique;
+}
+
+int countEqClassesByRowsSum(matrix m) {
+    // Создание массива для хранения сумм строк
+    long long *rowSums = (long long *)malloc(m.nRows * sizeof(long long));
+
+    // Вычисление сумм строк
+    for (int i = 0; i < m.nRows; i++) {
+        rowSums[i] = 0;
+        for (int j = 0; j < m.nCols; j++) {
+            rowSums[i] += m.values[i][j];
+        }
+    }
+
+    // Сортировка сумм строк
+    qsort(rowSums, m.nRows, sizeof(long long), cmp_long_long);
+
+    // Подсчет уникальных сумм строк
+    int uniqueSums = countNUnique(rowSums, m.nRows);
+
+    // Освобождение памяти
+    free(rowSums);
+
+    return uniqueSums;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -69,6 +111,25 @@ int main() {
 
     // Освобождение памяти от матрицы
     freeMemMatrix(&points);
+
+    // Создаем матрицу из примера
+    matrix new = createMatrixFromArray((const int[]){
+            7, 1,
+            2, 7,
+            5, 4,
+            4, 3,
+            1, 6,
+            8, 0
+    }, 6, 2);
+
+    // Задание 10: Подсчитываем количество классов эквивалентных строк
+    int classes = countEqClassesByRowsSum(new);
+
+    // Выводим результат
+    printf("Количество классов эквивалентных строк: %d\n", classes);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&new);
 
     return 0;
 }
