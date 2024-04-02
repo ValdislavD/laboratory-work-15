@@ -201,10 +201,18 @@ void transposeIfMatrixHasNotEqualSumOfRows(matrix m) {
 
     // Проверяем, все ли суммы элементов строк различны
     if (isUnique(sums, nRows)) {
-        // Суммы элементов строк различны, транспонируем матрицу
-        transposeMatrix(&m);
+        // Создаем новую матрицу для транспонирования
+        matrix transposed = getMemMatrix(m.nCols, m.nRows);
+        // Транспонируем матрицу
+        for (int i = 0; i < m.nRows; i++) {
+            for (int j = 0; j < m.nCols; j++) {
+                transposed.values[j][i] = m.values[i][j];
+            }
+        }
         printf("Матрица была транспонирована:\n");
-        outputMatrix(m);
+        outputMatrix(transposed);
+        // Освобождаем память, выделенную для новой матрицы
+        freeMemMatrix(&transposed);
     } else {
         printf("Суммы элементов строк не различны, матрица остается без изменений.\n");
     }
@@ -311,6 +319,9 @@ int main() {
     sortColsByMinElement(&myMatrix);
     outputMatrix(myMatrix);
 
+    // Задание 5: Проверка и транспонирование матрицы, если суммы элементов строк различны
+    transposeIfMatrixHasNotEqualSumOfRows(myMatrix);
+
     // Освобождаем память от матрицы
     freeMemMatrix(&myMatrix);
 
@@ -329,7 +340,7 @@ int main() {
     // Освобождаем память от матрицы
     freeMemMatrix(&my_Matrix);
 
-    // Создаем матрицы для задачи 5
+    // Создаем матрицы для задачи
     matrix m1 = createMatrixFromArray((const int[]){
             1, 2,
             3, 4
@@ -340,7 +351,7 @@ int main() {
             2, 1
     }, 2, 2);
 
-    // Задача 5: Проверить, являются ли две матрицы взаимно обратными
+    // Задача 6: Проверить, являются ли две матрицы взаимно обратными
     bool mutuallyInverse = isMutuallyInverseMatrices(m1, m2);
     printf("Две матрицы %s взаимно обратными.\n", mutuallyInverse ? "являются" : "не являются");
 
@@ -348,7 +359,7 @@ int main() {
     freeMemMatrix(&m1);
     freeMemMatrix(&m2);
 
-    // Задача 6: Найти сумму максимальных элементов псевдодиагоналей матрицы
+    // Задача 7: Найти сумму максимальных элементов псевдодиагоналей матрицы
     int matrix[MAX_ROWS][MAX_COLS] = {
             {1, 2, 3},
             {4, 5, 6},
