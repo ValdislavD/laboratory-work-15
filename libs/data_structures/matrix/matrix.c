@@ -345,3 +345,18 @@ int countZeroRows(matrix m, size_t nRows, size_t nCols) {
     }
     return count;
 }
+
+void insertionSortRowsMatrixByRowCriteriaF(matrix m, float (*criteria)(int *, int)) {
+    int n = m.nRows;
+    int i, j;
+    for (i = 1; i < n; i++) {
+        int *currentRow = m.values[i];
+        float key = criteria(currentRow, m.nCols);
+        j = i - 1;
+        while (j >= 0 && criteria(m.values[j], m.nCols) > key) {
+            swapRows(&m, j, j + 1);
+            j = j - 1;
+        }
+        m.values[j + 1] = currentRow;
+    }
+}

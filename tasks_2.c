@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "libs/data_structures/matrix/matrix.h"
 #include <windows.h>
+#include <math.h>
 
 // Функция для нахождения минимального элемента в выделенной области
 int getMinInArea(matrix m) {
@@ -23,6 +24,20 @@ int getMinInArea(matrix m) {
     return min;
 }
 
+// Функция для вычисления расстояния от начала координат до точки
+float getDistance(int *a, int n) {
+    float distance = 0;
+    for (int i = 0; i < n; i++) {
+        distance += pow(a[i], 2);
+    }
+    return sqrt(distance);
+}
+
+// Функция для сортировки матрицы по неубыванию расстояний до начала координат
+void sortByDistances(matrix m) {
+    insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -32,9 +47,28 @@ int main() {
             4, 1, 12, 2
     }, 3, 4);
 
-    //Найти минимальный элемент матрицы в выделенной области:
+    //Задание 8: Найти минимальный элемент матрицы в выделенной области:
     int min = getMinInArea(m);
     printf("Минимальный элемент в выделенной области: %d\n", min);
+    // Освобождение памяти от матрицы
+    freeMemMatrix(&m);
+
+    // Создание матрицы с точками (пример)
+    matrix points = createMatrixFromArray((const int[]){
+            5, 2, 7,
+            4, 1, 6,
+            3, 8, 9
+    }, 3, 3);
+
+    // Задание 9: Сортировка точек по расстояниям до начала координат
+    sortByDistances(points);
+
+    // Вывод отсортированных точек
+    printf("Точки, отсортированные по расстояниям до начала координат:\n");
+    outputMatrix(points);
+
+    // Освобождение памяти от матрицы
+    freeMemMatrix(&points);
 
     return 0;
 }

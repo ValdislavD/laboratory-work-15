@@ -62,4 +62,6 @@ matrix *createArrayOfMatrixFromArray(const int *values, size_t nMatrices, size_t
 
 int countZeroRows(matrix m, size_t nRows, size_t nCols);
 
+void insertionSortRowsMatrixByRowCriteriaF(matrix m, float (*criteria)(int *, int));
+
 #endif //UNTITLED18_MATRIX_H
