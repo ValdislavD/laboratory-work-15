@@ -80,6 +80,34 @@ int countEqClassesByRowsSum(matrix m) {
     return uniqueSums;
 }
 
+// Функция для определения количества "особых" элементов матрицы
+int getNSpecialElement(matrix m) {
+    int nRows = m.nRows;
+    int nCols = m.nCols;
+    int count = 0;
+
+    // Проходим по каждому столбцу матрицы
+    for (int j = 0; j < nCols; j++) {
+        int sum = 0;
+        int maxElement = m.values[0][j]; // Предполагаем, что максимальный элемент равен первому элементу столбца
+
+        // Вычисляем сумму элементов столбца и находим максимальный элемент
+        for (int i = 0; i < nRows; i++) {
+            sum += m.values[i][j];
+            if (m.values[i][j] > maxElement) {
+                maxElement = m.values[i][j];
+            }
+        }
+
+        // Проверяем, является ли максимальный элемент "особым"
+        if (maxElement > sum - maxElement) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -130,6 +158,22 @@ int main() {
 
     // Освобождаем память, выделенную для матрицы
     freeMemMatrix(&new);
+
+    // Создаем матрицу (пример)
+    matrix exampleMatrix = createMatrixFromArray((const int[]){
+            3, 5, 5, 4,
+            2, 3, 6, 7,
+            12, 2, 1, 2
+    }, 3, 4);
+
+    //Задание 11: Определяем количество "особых" элементов матрицы
+    int specialElements = getNSpecialElement(exampleMatrix);
+
+    // Выводим результат
+    printf("Количество \"особых\" элементов матрицы: %d\n", specialElements);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&exampleMatrix);
 
     return 0;
 }
