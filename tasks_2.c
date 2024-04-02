@@ -136,6 +136,26 @@ void swapPenultimateRow(matrix m, int n) {
     }
 }
 
+// Функция для проверки того, что массив упорядочен по неубыванию
+bool isNonDescendingSorted(int *a, int n) {
+    for (int i = 1; i < n; i++) {
+        if (a[i] < a[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Функция для проверки того, что все строки матрицы упорядочены по неубыванию
+bool hasAllNonDescendingRows(matrix m) {
+    for (int i = 0; i < m.nRows; i++) {
+        if (!isNonDescendingSorted(m.values[i], m.nCols)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -224,5 +244,32 @@ int main() {
 
     // Освобождаем память, выделенную для матрицы
     freeMemMatrix(&M);
+
+    // Создаем и заполняем массив матриц одного размера (пример)
+    matrix *matrices = createArrayOfMatrixFromArray((const int[]){
+            // Матрица 1 (неподходящая)
+            1, 2, 3,
+            7, 5, 6,
+            4, 8, 9,
+
+            // Матрица 2 (подходящая)
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+
+            // Матрица 3 (подходящая)
+            1, 4, 7,
+            2, 5, 8,
+            3, 6, 9
+    }, 3, 3, 3);
+
+    //Задание 13: Выводим результат для каждой матрицы
+    for (int i = 0; i < 3; i++) {
+        printf("Матрица %d: %s\n", i + 1, hasAllNonDescendingRows(matrices[i]) ? "упорядочена по неубыванию" : "не упорядочена по неубыванию");
+    }
+
+    // Освобождаем память, выделенную для массива матриц
+    freeMemMatrices(matrices, 3);
+    
     return 0;
 }
