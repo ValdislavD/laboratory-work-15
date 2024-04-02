@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <windows.h>
 
+#define MAX_ROWS 100
+#define MAX_COLS 100
+
 void swapRowsWithMinAndMax(matrix *m) {
     // Находим позиции минимального и максимального элементов
     position minPos = getMinValuePos(*m);
@@ -242,6 +245,38 @@ bool isMutuallyInverseMatrices(matrix m1, matrix m2) {
     return isInverse;
 }
 
+int maximum(int a, int b) {
+    return a > b ? a : b;
+}
+
+long long findSumOfMaxesOfPseudoDiagonal(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
+    int diagonalCount = rows + cols - 1;
+    long long maxValues[diagonalCount]; // Используем long long для суммирования
+
+    // Инициализация массива максимальных значений
+    for (int i = 0; i < diagonalCount; ++i) {
+        maxValues[i] = -1; // Инициализируем максимальные значения как отрицательные для удобства
+    }
+
+    // Проход по матрице
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            // Вычисление индекса псевдодиагонали
+            int diagonalIndex = i + j;
+            // Обновление максимального значения для данной псевдодиагонали
+            maxValues[diagonalIndex] = maximum(maxValues[diagonalIndex], matrix[i][j]);
+        }
+    }
+
+    // Вычисление суммы максимальных элементов
+    long long sum = 0;
+    for (int i = 0; i < diagonalCount; ++i) {
+        sum += maxValues[i];
+    }
+
+    return sum;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем квадратную матрицу
@@ -287,52 +322,41 @@ int main() {
     }, 3, 3);
     outputMatrix(my_Matrix);
 
-    // Задача 4: Заменить квадратной матрицу ее квадратом, если она симметрична
+    // Задача 4: Заменить квадратную матрицу её квадратом, если она симметрична
     getSquareOfMatrixIfSymmetric(&my_Matrix);
     outputMatrix(my_Matrix);
 
     // Освобождаем память от матрицы
-    freeMemMatrix(&myMatrix);
+    freeMemMatrix(&my_Matrix);
 
-    // Создаем и заполняем матрицу
-    matrix newMatrix = createMatrixFromArray((const int[]){
-            1, 2, 3,
-            4, 5, 6,
-            7, 8, 9
-    }, 3, 3);
-    outputMatrix(myMatrix);
+    // Создаем матрицы для задачи 5
+    matrix m1 = createMatrixFromArray((const int[]){
+            1, 2,
+            3, 4
+    }, 2, 2);
 
-    // Задача 5: Транспонировать матрицу, если суммы элементов строк различны
-    transposeIfMatrixHasNotEqualSumOfRows(newMatrix);
+    matrix m2 = createMatrixFromArray((const int[]){
+            4, 3,
+            2, 1
+    }, 2, 2);
 
-    // Освобождаем память от матрицы
-    freeMemMatrix(&newMatrix);
+    // Задача 5: Проверить, являются ли две матрицы взаимно обратными
+    bool mutuallyInverse = isMutuallyInverseMatrices(m1, m2);
+    printf("Две матрицы %s взаимно обратными.\n", mutuallyInverse ? "являются" : "не являются");
 
-    // Создание и заполнение двух квадратных матриц A и B
-    matrix A_matrix = createMatrixFromArray((const int[]){
-            1, 2, 3,
-            4, 5, 6,
-            7, 8, 9
-    }, 3, 3);
+    // Освобождаем память от матриц
+    freeMemMatrix(&m1);
+    freeMemMatrix(&m2);
 
-    matrix B_matrix = createMatrixFromArray((const int[]){
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1
-    }, 3, 3);
-
-    // Проверка, являются ли матрицы A и B взаимно обратными
-    bool result = isMutuallyInverseMatrices(A_matrix, B_matrix);
-
-    if (result) {
-        printf("Матрицы A и B являются взаимно обратными.\n");
-    } else {
-        printf("Матрицы A и B не являются взаимно обратными.\n");
-    }
-
-    // Освобождение памяти, выделенной для матриц
-    freeMemMatrix(&A_matrix);
-    freeMemMatrix(&B_matrix);
+    // Задача 6: Найти сумму максимальных элементов псевдодиагоналей матрицы
+    int matrix[MAX_ROWS][MAX_COLS] = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+    };
+    int rows = 3, cols = 3;
+    long long sum = findSumOfMaxesOfPseudoDiagonal(matrix, rows, cols);
+    printf("Сумма максимальных элементов псевдодиагоналей матрицы: %lld\n", sum);
 
     return 0;
 }
