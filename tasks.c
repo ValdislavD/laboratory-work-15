@@ -1,4 +1,4 @@
-#include "libs/data_structures/matrix/matrix.h"
+/*#include "libs/data_structures/matrix/matrix.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -370,4 +370,4 @@ int main() {
     printf("Сумма максимальных элементов псевдодиагоналей матрицы: %lld\n", sum);
 
     return 0;
-}
+}*/

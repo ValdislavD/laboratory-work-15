@@ -6,7 +6,8 @@ set(CMAKE_C_STANDARD 11)
 add_executable(untitled18 main.c
         libs/data_structures/matrix/matrix.h
         libs/data_structures/matrix/matrix.c
-        tasks.c)
+        tasks.c
+        tasks_2.c)
 
 add_subdirectory(libs)
 target_link_libraries(untitled18 data_structures)
