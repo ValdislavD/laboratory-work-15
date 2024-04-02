@@ -108,6 +108,34 @@ int getNSpecialElement(matrix m) {
     return count;
 }
 
+// Функция для поиска позиции первого минимального элемента в матрице в ее первом столбце
+position getLeftMin(matrix m) {
+    int min = m.values[0][0]; // Предполагаем, что первый элемент - минимальный
+    position minPos = {0, 0}; // Позиция минимального элемента
+
+    for (int i = 0; i < m.nRows; i++) {
+        if (m.values[i][0] < min) {
+            min = m.values[i][0];
+            minPos.rowIndex = i;
+        }
+    }
+
+    return minPos;
+}
+
+// Функция для обмена предпоследней строки с найденным столбцом
+void swapPenultimateRow(matrix m, int n) {
+    // Находим позицию первого минимального элемента в первом столбце
+    position minPos = getLeftMin(m);
+
+    // Обмен предпоследней строки с столбцом, в котором находится минимальный элемент
+    for (int i = 0; i < m.nCols; i++) {
+        int temp = m.values[m.nRows - 2][i];
+        m.values[m.nRows - 2][i] = m.values[minPos.rowIndex][i];
+        m.values[minPos.rowIndex][i] = temp;
+    }
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -175,5 +203,26 @@ int main() {
     // Освобождаем память, выделенную для матрицы
     freeMemMatrix(&exampleMatrix);
 
+    // Создаем и заполняем квадратную матрицу (пример)
+    matrix M = createMatrixFromArray((const int[]){
+            3, 5, 2,
+            4, 1, 6,
+            8, 0, 7
+    }, 3, 3);
+
+    // Выводим исходную матрицу
+    printf("Исходная матрица:\n");
+    outputMatrix(M);
+    printf("\n");
+
+    //Задание 12: Заменяем предпоследнюю строку матрицы первым из столбцов, в котором находится минимальный элемент
+    swapPenultimateRow(M, m.nCols);
+
+    // Выводим результат
+    printf("Матрица после замены предпоследней строки:\n");
+    outputMatrix(M);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&M);
     return 0;
 }
