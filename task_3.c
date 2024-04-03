@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "libs/data_structures/matrix/matrix.h"
 #include <math.h>
+#include <stdbool.h>
 #include <windows.h>
 
 // Функция для вычисления нормы матрицы (максимум абсолютных значений элементов)
@@ -38,6 +39,48 @@ void printMatrixWithMinNorm(matrix *ms, int nMatrices) {
     outputMatrix(minNormMatrix);
 }
 
+// Функция для определения минимального из двух чисел
+int min2(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+// Функция для определения количества "особых" элементов матрицы
+int getNSpecialElement2(matrix m) {
+    int nRows = m.nRows;
+    int nCols = m.nCols;
+    int count = 0;
+
+    // Проходим по каждому элементу матрицы
+    for (int i = 0; i < nRows; i++) {
+        for (int j = 0; j < nCols; j++) {
+            bool isSpecial = true;
+
+            // Проверяем, что все элементы в строке слева от текущего элемента меньше него
+            for (int k = 0; k < j; k++) {
+                if (m.values[i][k] >= m.values[i][j]) {
+                    isSpecial = false;
+                    break;
+                }
+            }
+
+            // Проверяем, что все элементы в строке справа от текущего элемента больше него
+            for (int k = j + 1; k < nCols; k++) {
+                if (m.values[i][k] <= m.values[i][j]) {
+                    isSpecial = false;
+                    break;
+                }
+            }
+
+            // Если текущий элемент "особый", увеличиваем счетчик
+            if (isSpecial) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Пример массива целочисленных квадратных матриц
@@ -66,6 +109,22 @@ int main() {
     for (int i = 0; i < sizeof(matrices) / sizeof(matrices[0]); i++) {
         freeMemMatrix(&matrices[i]);
     }
+
+    // Создаем и заполняем матрицу
+    matrix m = createMatrixFromArray((const int[]){
+            2, 3, 5, 5, 4,
+            6, 2, 3, 8, 12,
+            12, 12, 2, 1, 2
+    }, 3, 5);
+
+    //Задание 16: Определяем количество "особых" элементов в матрице
+    int specialElements = getNSpecialElement2(m);
+
+    // Выводим результат
+    printf("Количество \"особых\" элементов в матрице: %d\n", specialElements);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&m);
 
     return 0;
 }
