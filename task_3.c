@@ -81,6 +81,50 @@ int getNSpecialElement2(matrix m) {
     return count;
 }
 
+// Функция для вычисления скалярного произведения двух векторов
+double getScalarProduct(int *a, int *b, int n) {
+    double product = 0;
+    for (int i = 0; i < n; i++) {
+        product += a[i] * b[i];
+    }
+    return product;
+}
+
+// Функция для вычисления длины вектора
+double getVectorLength(int *a, int n) {
+    double length = 0;
+    for (int i = 0; i < n; i++) {
+        length += a[i] * a[i];
+    }
+    return sqrt(length);
+}
+
+// Функция для вычисления косинуса угла между двумя векторами
+double getCosine(int *a, int *b, int n) {
+    double scalarProduct = getScalarProduct(a, b, n);
+    double lengthA = getVectorLength(a, n);
+    double lengthB = getVectorLength(b, n);
+
+    return scalarProduct / (lengthA * lengthB);
+}
+
+// Функция для определения индекса вектора с максимальным углом к заданному вектору
+int getVectorIndexWithMaxAngle(matrix m, int *b) {
+    int maxIndex = 0;
+    double maxCosine = -1;
+
+    for (int i = 0; i < m.nRows; i++) {
+        double cosine = getCosine(m.values[i], b, m.nCols);
+        if (cosine > maxCosine) {
+            maxCosine = cosine;
+            maxIndex = i;
+        }
+    }
+
+    return maxIndex;
+}
+
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Пример массива целочисленных квадратных матриц
@@ -125,6 +169,25 @@ int main() {
 
     // Освобождаем память, выделенную для матрицы
     freeMemMatrix(&m);
+
+    // Создаем и заполняем матрицу с координатами векторов
+    matrix vectors = createMatrixFromArray((const int[]){
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9
+    }, 3, 3);
+
+    // Задаем вектор v
+    int v[] = {2, 2, 2};
+
+    //Задание 17: Определяем индекс вектора с максимальным углом к v
+    int maxAngleIndex = getVectorIndexWithMaxAngle(vectors, v);
+
+    // Выводим результат
+    printf("Индекс вектора с максимальным углом к заданному вектору: %d\n", maxAngleIndex);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&vectors);
 
     return 0;
 }
