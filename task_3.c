@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "libs/data_structures/matrix/matrix.h"
 #include <math.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <windows.h>
 
@@ -124,6 +125,47 @@ int getVectorIndexWithMaxAngle(matrix m, int *b) {
     return maxIndex;
 }
 
+// Функция для вычисления скалярного произведения строки и столбца
+long long getScalarProductRowAndCol(matrix m, int rowIdx, int colIdx) {
+    long long product = 0;
+
+    for (int i = 0; i < m.nCols; i++) {
+        product += (long long)m.values[rowIdx][i] * m.values[i][colIdx];
+    }
+
+    return product;
+}
+
+// Функция для нахождения скалярного произведения строки с наибольшим элементом на столбец с наименьшим элементом
+long long getSpecialScalarProduct(matrix m, int n) {
+    int maxElement = INT_MIN;
+    int minElement = INT_MAX;
+    int maxRowIdx = 0;
+    int minColIdx = 0;
+
+    // Находим наибольший элемент и его строку
+    for (int i = 0; i < m.nRows; i++) {
+        for (int j = 0; j < m.nCols; j++) {
+            if (m.values[i][j] > maxElement) {
+                maxElement = m.values[i][j];
+                maxRowIdx = i;
+            }
+        }
+    }
+
+    // Находим наименьший элемент и его столбец
+    for (int j = 0; j < m.nCols; j++) {
+        if (m.values[j][maxRowIdx] < minElement) {
+            minElement = m.values[j][maxRowIdx];
+            minColIdx = j;
+        }
+    }
+
+    // Вычисляем скалярное произведение строки с наибольшим элементом на столбец с наименьшим элементом
+    long long scalarProduct = getScalarProductRowAndCol(m, maxRowIdx, minColIdx);
+
+    return scalarProduct;
+}
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
@@ -188,6 +230,22 @@ int main() {
 
     // Освобождаем память, выделенную для матрицы
     freeMemMatrix(&vectors);
+
+    // Создаем и заполняем матрицу
+    matrix matrix1 = createMatrixFromArray((const int[]){
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9
+    }, 3, 3);
+
+    // Находим скалярное произведение строки с наибольшим элементом на столбец с наименьшим элементом
+    long long specialScalarProduct = getSpecialScalarProduct(matrix1, matrix1.nRows);
+
+    // Выводим результат
+    printf("Скалярное произведение строки с наибольшим элементом на столбец с наименьшим элементом: %lld\n", specialScalarProduct);
+
+    // Освобождаем память, выделенную для матрицы
+    freeMemMatrix(&matrix1);
 
     return 0;
 }
