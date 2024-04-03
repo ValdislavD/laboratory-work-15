@@ -156,6 +156,47 @@ bool hasAllNonDescendingRows(matrix m) {
     return true;
 }
 
+// Функция для подсчета числа нулевых строк в матрице
+int count_ZeroRows(matrix m) {
+    int count = 0;
+    for (int i = 0; i < m.nRows; i++) {
+        bool isZeroRow = true;
+        for (int j = 0; j < m.nCols; j++) {
+            if (m.values[i][j] != 0) {
+                isZeroRow = false;
+                break;
+            }
+        }
+        if (isZeroRow) {
+            count++;
+        }
+    }
+    return count;
+}
+
+// Функция для поиска максимального числа нулевых строк в массиве матриц
+int findMaxZeroRows(matrix *ms, int nMatrix) {
+    int maxZeroRows = 0;
+    for (int i = 0; i < nMatrix; i++) {
+        int zeroRows = count_ZeroRows(ms[i]);
+        if (zeroRows > maxZeroRows) {
+            maxZeroRows = zeroRows;
+        }
+    }
+    return maxZeroRows;
+}
+
+// Функция для вывода матриц с максимальным числом нулевых строк
+void printMatrixWithMaxZeroRows(matrix *ms, int nMatrix) {
+    int maxZeroRows = findMaxZeroRows(ms, nMatrix);
+    printf("Матрицы с наибольшим числом нулевых строк:\n");
+    for (int i = 0; i < nMatrix; i++) {
+        if (count_ZeroRows(ms[i]) == maxZeroRows) {
+            outputMatrix(ms[i]);
+        }
+    }
+}
+
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     // Создаем и заполняем матрицу
@@ -270,6 +311,38 @@ int main() {
 
     // Освобождаем память, выделенную для массива матриц
     freeMemMatrices(matrices, 3);
-    
+
+    // Пример массива целочисленных матриц
+    matrix matrices_new[] = {
+            createMatrixFromArray((const int[]){
+                    0, 1, 1,
+                    1, 0, 0,
+                    0, 0, 0
+            }, 3, 3),
+            createMatrixFromArray((const int[]){
+                    1, 1, 2,
+                    1, 1, 1,
+                    4, 7, 0
+            }, 3, 3),
+            createMatrixFromArray((const int[]){
+                    0, 0, 0,
+                    0, 1, 0,
+                    0, 2, 0
+            }, 3, 3),
+            createMatrixFromArray((const int[]){
+                    0, 0, 0,
+                    0, 1, 0,
+                    0, 3, 0
+            }, 3, 3)
+    };
+
+    // Вывод матриц с максимальным числом нулевых строк
+    printMatrixWithMaxZeroRows(matrices_new, sizeof(matrices_new) / sizeof(matrices_new[0]));
+
+    // Освобождение памяти, выделенной для матриц
+    for (int i = 0; i < sizeof(matrices_new) / sizeof(matrices_new[0]); i++) {
+        freeMemMatrix(&matrices_new[i]);
+    }
+
     return 0;
 }
